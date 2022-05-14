@@ -1,6 +1,7 @@
 package player
 
 import (
+	"fmt"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -32,7 +33,10 @@ func (m *MediaPlayer) Identity() string {
 
 func (m *MediaPlayer) PlaybackStatus() PlaybackStatus {
 	var playbackStatus string
-	_ = getProperty(m, "org.mpris.MediaPlayer2.Player.PlaybackStatus", &playbackStatus)
+	err := getProperty(m, "org.mpris.MediaPlayer2.Player.PlaybackStatus", &playbackStatus)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	switch playbackStatus {
 	case "Playing":
@@ -47,5 +51,8 @@ func (m *MediaPlayer) PlaybackStatus() PlaybackStatus {
 }
 
 func (m *MediaPlayer) Pause() {
-	m.obj.Call("org.mpris.MediaPlayer2.Player.Pause", 0)
+	call := m.obj.Call("org.mpris.MediaPlayer2.Player.Pause", 0)
+	if call.Err != nil {
+		println(call.Err)
+	}
 }

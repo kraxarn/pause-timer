@@ -31,7 +31,24 @@ func main() {
 		os.Exit(0)
 	}
 
+	if len(players) > 1 && len(flags.player) == 0 {
+		fmt.Printf("Multiple players found, specify one of:")
+		printPlayerIdentities(players)
+		fmt.Println()
+		os.Exit(1)
+	}
+
 	for _, player := range players {
 		fmt.Println(player.name, player.identity)
+	}
+}
+
+func printPlayerIdentities(players []MediaPlayer) {
+	for i, player := range players {
+		if i == 0 {
+			fmt.Printf(" \"%s\"", player.identity)
+		} else {
+			fmt.Printf(", \"%s\"", player.identity)
+		}
 	}
 }

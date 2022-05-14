@@ -6,28 +6,15 @@ import (
 )
 
 type MediaPlayer struct {
-	name     string
-	identity string
+	obj  dbus.BusObject
+	name string
 }
 
 func newMediaPlayer(name string, conn *dbus.Conn) MediaPlayer {
-	player := MediaPlayer{
+	return MediaPlayer{
 		name: name,
+		obj:  conn.Object(name, "/org/mpris/MediaPlayer2"),
 	}
-
-	obj := conn.Object(name, "/org/mpris/MediaPlayer2")
-	prop, err := obj.GetProperty("org.mpris.MediaPlayer2.Identity")
-	if err != nil {
-		return player
-	}
-
-	var identity string
-	if err = prop.Store(&identity); err != nil {
-		return player
-	}
-
-	player.identity = identity
-	return player
 }
 
 func getAllMediaPlayers(conn *dbus.Conn) ([]MediaPlayer, error) {
@@ -45,4 +32,18 @@ func getAllMediaPlayers(conn *dbus.Conn) ([]MediaPlayer, error) {
 	}
 
 	return players, nil
+}
+
+func getProperty[V string](player *MediaPlayer, name string, value *V) error {
+	prop, err := player.obj.GetProperty(name)
+	if err != nil {
+		return err
+	}
+	return prop.Store(value)
+}
+
+func (m *MediaPlayer) identity() string {
+	var identity string
+	_ = getProperty(m, "org.mpris.MediaPlayer2.Identity", &identity)
+	return identity
 }

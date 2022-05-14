@@ -22,7 +22,7 @@ func main() {
 
 	if flags.list {
 		for _, player := range players {
-			fmt.Println(player.identity)
+			fmt.Println(player.identity())
 		}
 		os.Exit(0)
 	}
@@ -36,7 +36,7 @@ func main() {
 
 	var current *MediaPlayer
 	for _, player := range players {
-		if player.identity == flags.player {
+		if player.identity() == flags.player {
 			current = &player
 			break
 		}
@@ -55,9 +55,9 @@ func main() {
 func printPlayerIdentities(players []MediaPlayer) {
 	for i, player := range players {
 		if i == 0 {
-			fmt.Printf(" \"%s\"", player.identity)
+			fmt.Printf(" \"%s\"", player.identity())
 		} else {
-			fmt.Printf(", \"%s\"", player.identity)
+			fmt.Printf(", \"%s\"", player.identity())
 		}
 	}
 }

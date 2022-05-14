@@ -78,6 +78,7 @@ func main() {
 
 			i++
 			if i >= flags.minutes {
+				fmt.Println()
 				break
 			}
 		}

@@ -12,7 +12,7 @@ func parseFlags() *Flags {
 	flags := &Flags{}
 
 	flag.StringVar(&flags.current, "player", "", "Media player to use")
-	flag.IntVar(&flags.minutes, "minutes", 5, "Minutes to wait, default 5")
+	flag.IntVar(&flags.minutes, "minutes", 5, "Minutes to wait")
 	flag.BoolVar(&flags.list, "list", false, "List all available media players")
 	flag.Parse()
 

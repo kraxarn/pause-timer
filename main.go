@@ -34,9 +34,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	var current *MediaPlayer
 	for _, player := range players {
-		fmt.Println(player.name, player.identity)
+		if player.identity == flags.player {
+			current = &player
+			break
+		}
 	}
+
+	if current == nil {
+		fmt.Printf("Player \"%s\" not found, specify one of:", flags.player)
+		printPlayerIdentities(players)
+		fmt.Println()
+		os.Exit(1)
+	}
+
+	fmt.Println(":)")
 }
 
 func printPlayerIdentities(players []MediaPlayer) {

@@ -27,3 +27,23 @@ func (m *MediaPlayer) Identity() string {
 	_ = getProperty(m, "org.mpris.MediaPlayer2.Identity", &identity)
 	return identity
 }
+
+func (m *MediaPlayer) PlaybackStatus() PlaybackStatus {
+	var playbackStatus string
+	_ = getProperty(m, "org.mpris.MediaPlayer2.Identity.Player.PlaybackStatus", &playbackStatus)
+
+	switch playbackStatus {
+	case "Playing":
+		return Playing
+
+	case "Paused":
+		return Paused
+
+	default:
+		return Stopped
+	}
+}
+
+func (m *MediaPlayer) Pause() {
+	m.obj.Call("org.mpris.MediaPlayer2.Identity.Player.Pause", 0)
+}

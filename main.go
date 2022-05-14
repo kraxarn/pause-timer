@@ -5,6 +5,7 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/kraxarn/pause-timer/player"
 	"os"
+	"time"
 )
 
 func main() {
@@ -50,5 +51,38 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(":)")
+	for {
+		// Wait for playback to start
+		fmt.Println("Waiting for playback to start...")
+		for {
+			status := current.PlaybackStatus()
+			if status == player.Playing {
+				break
+			}
+			time.Sleep(time.Second)
+		}
+
+		// Started, print message first
+		fmt.Printf("Playback started, waiting for ")
+		if flags.minutes == 1 {
+			fmt.Printf("%d minute", flags.minutes)
+		} else {
+			fmt.Printf("%d minutes", flags.minutes)
+		}
+
+		// Wait for flags.minutes minutes
+		i := 0
+		for {
+			time.Sleep(time.Minute)
+			fmt.Print(".")
+
+			i++
+			if i >= flags.minutes {
+				break
+			}
+		}
+
+		// Time's up, pause
+		current.Pause()
+	}
 }

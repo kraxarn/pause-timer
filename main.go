@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/godbus/dbus/v5"
+	"github.com/kraxarn/pause-timer/player"
 	"os"
 )
 
@@ -14,50 +15,40 @@ func main() {
 		panic(err)
 	}
 
-	var players []MediaPlayer
-	players, err = getAllMediaPlayers(conn)
+	var mediaPlayers []player.MediaPlayer
+	mediaPlayers, err = player.GetAll(conn)
 	if err != nil {
 		panic(err)
 	}
 
 	if flags.list {
-		for _, player := range players {
-			fmt.Println(player.identity())
+		for _, mediaPlayer := range mediaPlayers {
+			fmt.Println(mediaPlayer.Identity())
 		}
 		os.Exit(0)
 	}
 
-	if len(players) > 1 && len(flags.player) == 0 {
+	if len(mediaPlayers) > 1 && len(flags.player) == 0 {
 		fmt.Printf("Multiple players found, specify one of:")
-		printPlayerIdentities(players)
+		player.PrintAll(mediaPlayers)
 		fmt.Println()
 		os.Exit(1)
 	}
 
-	var current *MediaPlayer
-	for _, player := range players {
-		if player.identity() == flags.player {
-			current = &player
+	var current *player.MediaPlayer
+	for _, mediaPlayer := range mediaPlayers {
+		if mediaPlayer.Identity() == flags.player {
+			current = &mediaPlayer
 			break
 		}
 	}
 
 	if current == nil {
 		fmt.Printf("Player \"%s\" not found, specify one of:", flags.player)
-		printPlayerIdentities(players)
+		player.PrintAll(mediaPlayers)
 		fmt.Println()
 		os.Exit(1)
 	}
 
 	fmt.Println(":)")
-}
-
-func printPlayerIdentities(players []MediaPlayer) {
-	for i, player := range players {
-		if i == 0 {
-			fmt.Printf(" \"%s\"", player.identity())
-		} else {
-			fmt.Printf(", \"%s\"", player.identity())
-		}
-	}
 }

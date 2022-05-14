@@ -30,7 +30,7 @@ func (m *MediaPlayer) Identity() string {
 
 func (m *MediaPlayer) PlaybackStatus() PlaybackStatus {
 	var playbackStatus string
-	_ = getProperty(m, "org.mpris.MediaPlayer2.Identity.Player.PlaybackStatus", &playbackStatus)
+	_ = getProperty(m, "org.mpris.MediaPlayer2.Player.PlaybackStatus", &playbackStatus)
 
 	switch playbackStatus {
 	case "Playing":

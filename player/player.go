@@ -1,6 +1,8 @@
 package player
 
-import "github.com/godbus/dbus/v5"
+import (
+	"github.com/godbus/dbus/v5"
+)
 
 type MediaPlayer struct {
 	obj  dbus.BusObject
@@ -45,5 +47,5 @@ func (m *MediaPlayer) PlaybackStatus() PlaybackStatus {
 }
 
 func (m *MediaPlayer) Pause() {
-	m.obj.Call("org.mpris.MediaPlayer2.Identity.Player.Pause", 0)
+	m.obj.Call("org.mpris.MediaPlayer2.Player.Pause", 0)
 }

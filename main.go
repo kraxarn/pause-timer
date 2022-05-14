@@ -8,10 +8,6 @@ import (
 
 func main() {
 	flags := parseFlags()
-	if flags == nil {
-		os.Exit(1)
-		return
-	}
 
 	conn, err := dbus.ConnectSessionBus()
 	if err != nil {

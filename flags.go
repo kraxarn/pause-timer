@@ -8,8 +8,8 @@ type Flags struct {
 	list    bool
 }
 
-func parseFlags() *Flags {
-	flags := &Flags{}
+func parseFlags() Flags {
+	var flags Flags
 
 	flag.StringVar(&flags.player, "player", "", "Media player to use")
 	flag.IntVar(&flags.minutes, "minutes", 5, "Minutes to wait")

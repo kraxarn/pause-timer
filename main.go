@@ -54,13 +54,7 @@ func main() {
 	for {
 		// Wait for playback to start
 		fmt.Println("Waiting for playback to start...")
-		for {
-			status := current.PlaybackStatus()
-			if status == player.Playing {
-				break
-			}
-			time.Sleep(time.Second)
-		}
+		waitForStatus(current, player.Playing)
 
 		// Started, print message first
 		fmt.Printf("Playback started, waiting for ")
@@ -85,5 +79,15 @@ func main() {
 
 		// Time's up, pause
 		current.Pause()
+		waitForStatus(current, player.Paused)
+	}
+}
+
+func waitForStatus(player *player.MediaPlayer, status player.PlaybackStatus) {
+	for {
+		if player.PlaybackStatus() == status {
+			break
+		}
+		time.Sleep(time.Second)
 	}
 }

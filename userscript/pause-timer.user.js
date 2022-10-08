@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      0.2.0
+// @version      1.0.0
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -74,7 +74,7 @@ class PauseTimer {
         });
     }
     async sleep(timeout) {
-        return new Promise(resolve => setTimeout(() => resolve, timeout));
+        return new Promise(resolve => setTimeout(() => resolve(), timeout));
     }
     async onApply(minutes) {
         if (!this.player) {

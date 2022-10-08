@@ -1,0 +1,12 @@
+{
+  "name": "pause-timer",
+  "version": "0.0.1",
+  "description": "Pause Timer",
+  "main": "pause-timer.user.ts",
+  "scripts": {
+    "serve": "http-server"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

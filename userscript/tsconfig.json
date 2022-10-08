@@ -1,0 +1,11 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ES2019",
+    "noImplicitAny": true,
+    "removeComments": false
+  },
+  "files": [
+    "pause-timer.user.ts"
+  ]
+}

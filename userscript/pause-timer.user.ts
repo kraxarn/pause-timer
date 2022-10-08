@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      0.0.1
+// @version      0.1.0
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -111,7 +111,7 @@ class PauseTimer {
 			await this.waitForState(PlayerState.Playing)
 
 			for (let i = 0; i < minutes; i++) {
-				this.status = `Waiting (${minutes - i})...`
+				this.status = `Waiting (${i}/${minutes})...`
 				await this.sleep(60_000)
 			}
 			this.player.pauseVideo()

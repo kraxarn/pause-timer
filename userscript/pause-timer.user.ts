@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      1.0.5
+// @version      1.1.0
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -29,6 +29,7 @@ interface VideoPlayer {
 
 class PauseTimer {
 	private player: VideoPlayer
+	private running = false
 
 	constructor() {
 		document.onclick = event => this.onClick(event)
@@ -84,13 +85,15 @@ class PauseTimer {
 		apply.onclick = () => this.onApply(parseInt(minutes.value))
 		container.appendChild(apply)
 
+		const cancel = document.createElement("input")
+		cancel.type = "button"
+		cancel.value = "Cancel"
+		cancel.onclick = () => this.running = false
+		container.appendChild(cancel)
+
 		document
 			.querySelector("#description-inline-expander .ytd-text-inline-expander > .yt-formatted-string:last-child")
 			.appendChild(container)
-	}
-
-	private log(...message: any[]) {
-		console.log("[PauseTimer]", ...message)
 	}
 
 	private async waitForState(state: PlayerState): Promise<void> {
@@ -114,7 +117,8 @@ class PauseTimer {
 			return
 		}
 
-		while (true) {
+		this.running = true
+		while (this.running) {
 			this.status = "Waiting..."
 			await this.waitForState(PlayerState.Playing)
 

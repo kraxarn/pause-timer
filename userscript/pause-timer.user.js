@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      1.0.5
+// @version      1.1.0
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -20,6 +20,7 @@ var PlayerState;
 })(PlayerState || (PlayerState = {}));
 class PauseTimer {
     constructor() {
+        this.running = false;
         document.onclick = event => this.onClick(event);
     }
     set status(value) {
@@ -63,12 +64,14 @@ class PauseTimer {
         apply.value = "Apply";
         apply.onclick = () => this.onApply(parseInt(minutes.value));
         container.appendChild(apply);
+        const cancel = document.createElement("input");
+        cancel.type = "button";
+        cancel.value = "Cancel";
+        cancel.onclick = () => this.running = false;
+        container.appendChild(cancel);
         document
             .querySelector("#description-inline-expander .ytd-text-inline-expander > .yt-formatted-string:last-child")
             .appendChild(container);
-    }
-    log(...message) {
-        console.log("[PauseTimer]", ...message);
     }
     async waitForState(state) {
         return new Promise(resolve => {
@@ -88,7 +91,8 @@ class PauseTimer {
             alert("Error: no player found");
             return;
         }
-        while (true) {
+        this.running = true;
+        while (this.running) {
             this.status = "Waiting...";
             await this.waitForState(PlayerState.Playing);
             for (let i = 0; i < minutes; i++) {

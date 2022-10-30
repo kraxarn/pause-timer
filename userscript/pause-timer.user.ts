@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      1.0.0
+// @version      1.0.1
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -52,7 +52,9 @@ class PauseTimer {
 	}
 
 	private onClick(event: MouseEvent) {
-		if (!(<HTMLElement>event.target).classList.contains("more-button")
+		const target = <HTMLElement>event.target;
+		if (target.id !== "expand"
+			|| target.parentElement.id !== "description-inline-expander"
 			|| document.getElementById("pause-timer-container")) {
 			return
 		}
@@ -78,7 +80,7 @@ class PauseTimer {
 		apply.onclick = () => this.onApply(parseInt(minutes.value))
 		container.appendChild(apply)
 
-		document.querySelector("#container #content #description").appendChild(container)
+		document.querySelector("#description-inline-expander #snippet").appendChild(container)
 	}
 
 	private log(...message: any[]) {

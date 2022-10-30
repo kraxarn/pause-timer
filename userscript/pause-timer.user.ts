@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      1.0.1
+// @version      1.0.2
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -35,14 +35,17 @@ class PauseTimer {
 	}
 
 	set status(value: string) {
-		const infoStrings = document.getElementById("info-strings")
+		const infoStrings = document.querySelector("#description #info")
 		if (!infoStrings) {
 			return
 		}
 
 		let status = document.getElementById("pause-timer-status")
 		if (!status) {
-			infoStrings.appendChild(infoStrings.querySelector("span#dot").cloneNode())
+			const spacer = document.createElement("span")
+			spacer.textContent = "  "
+			infoStrings.appendChild(spacer)
+
 			status = document.createElement("span")
 			status.id = "pause-timer-status"
 			infoStrings.appendChild(status)

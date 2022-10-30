@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PauseTimer
 // @homepage     https://github.com/kraxarn/pause-timer
-// @version      1.0.2
+// @version      1.0.3
 // @encoding     utf-8
 // @author       kraxarn
 // @match        *://*.youtube.com/*
@@ -67,6 +67,7 @@ class PauseTimer {
 		container.style.display = "flex"
 		container.style.flexDirection = "row"
 		container.style.gap = "10px"
+		container.style.paddingTop = "10px"
 
 		const title = document.createElement("span")
 		title.textContent = "Pause timer"
